@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  nginx:
+    depends_on:
+      - wordpress
+    container_name: nginx
+    build: ./requirements/nginx
+    ports:
+      - 443:443
+    networks:
+      - Inception-network
+    init: true
+    restart: always
+
+  mariadb:
+    container_name: mariadb
+    build: ./requirements/mariadb
+    expose:
+      - 3306
+    networks:
+      - Inception-network
+    init: true
+    restart: always
+
+  wordpress:
+    depends_on:
+      - mariadb
+    container_name: wordpress
+    build: ./requirements/wordpress
+    expose:
+      - 9000
+    networks:
+      - Inception-network
+    init: true
+    restart: always
+
+volumes:
+  wp_data:
+    name: wp_data
+    driver: local
+    drivers_opts:
+      device: /home/mapontil/data/wp_data
+  db_data:
+    name: db_data
+    driver: local
+    drivers_opts:
+      device: /home/mapontil/data/db_data
+
+networks:
+  Inception-network:
+    name: Inception-network
+    driver: bridge
