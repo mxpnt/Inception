@@ -2,11 +2,15 @@ server	{
 	listen 443 ssl default;
 	server mapontil.42.fr;
 
+	ssl                  on;
+	ssl_certificate      /etc/nginx/ssl/ca.crt;
+	ssl_certificate_key  /etc/nginx/ssl/privkey.key;
 	ssl_protocols TLSv1.2 TLSv1.3;
 
 	location / {
     try_files $uri $uri/ =404;
 	}
+
 	location ~ \.php$ {
 		fastcgi_split_path_info ^(.+\.php)(/.+)$;
 		fastcgi_pass wordpress:9000;

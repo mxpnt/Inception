@@ -4,7 +4,7 @@ services:
   nginx:
     depends_on:
       - wordpress
-    image: nginx
+    image: nginx:42
     container_name: nginx
     build: ./requirements/nginx
     ports:
@@ -17,7 +17,7 @@ services:
     restart: always
 
   mariadb:
-    image: mariadb
+    image: mariadb:42
     container_name: mariadb
     build:
       context: ./requirements/mariadb
@@ -38,7 +38,7 @@ services:
   wordpress:
     depends_on:
       - mariadb
-    image: wordpress
+    image: wordpress:42
     container_name: wordpress
     build: ./requirements/wordpress
     expose:
