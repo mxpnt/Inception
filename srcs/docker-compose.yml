@@ -4,34 +4,49 @@ services:
   nginx:
     depends_on:
       - wordpress
+    image: nginx
     container_name: nginx
     build: ./requirements/nginx
     ports:
       - 443:443
     networks:
       - Inception-network
+    volumes:
+      - wp_data:/var/www/html
     init: true
     restart: always
 
   mariadb:
+    image: mariadb
     container_name: mariadb
-    build: ./requirements/mariadb
+    build:
+      context: ./requirements/mariadb
+      args:
+        DB_NAME: ${DB_NAME}
+        DB_USER: ${DB_USER}
+        DB_PASS: ${DB_PASS}
+        DB_RPASS: ${DB_RPASS}
     expose:
       - 3306
     networks:
       - Inception-network
+    volumes:
+      - db_data:/var/lib/mysql
     init: true
     restart: always
 
   wordpress:
     depends_on:
       - mariadb
+    image: wordpress
     container_name: wordpress
     build: ./requirements/wordpress
     expose:
       - 9000
     networks:
       - Inception-network
+    volumes:
+      - wp_data:/var/www/html
     init: true
     restart: always
 
@@ -41,11 +56,16 @@ volumes:
     driver: local
     drivers_opts:
       device: /home/mapontil/data/wp_data
+      o: bind
+      type: none
+
   db_data:
     name: db_data
     driver: local
     drivers_opts:
       device: /home/mapontil/data/db_data
+      o: bind
+      type: none
 
 networks:
   Inception-network:
