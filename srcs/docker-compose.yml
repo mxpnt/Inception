@@ -11,8 +11,8 @@ services:
       - 443:443
     networks:
       - Inception-network
-    volumes:
-      - wp_data:/var/www/html
+    # volumes:
+    #   - wp_data:/var/www/html
     init: true
     restart: always
 
@@ -30,8 +30,8 @@ services:
       - 3306
     networks:
       - Inception-network
-    volumes:
-      - db_data:/var/lib/mysql
+    # volumes:
+    #   - db_data:/var/lib/mysql
     init: true
     restart: always
 
@@ -45,8 +45,8 @@ services:
       - 9000
     networks:
       - Inception-network
-    volumes:
-      - wp_data:/var/www/html
+    # volumes:
+    #   - wp_data:/var/www/html
     init: true
     restart: always
 
@@ -54,18 +54,18 @@ volumes:
   wp_data:
     name: wp_data
     driver: local
-    drivers_opts:
-      device: /home/mapontil/data/wp_data
-      o: bind
-      type: none
+    # driver_opts:
+    #   device: /home/mapontil/data/wp_data
+    #   o: bind
+    #   type: none
 
   db_data:
     name: db_data
     driver: local
-    drivers_opts:
-      device: /home/mapontil/data/db_data
-      o: bind
-      type: none
+    # driver_opts:
+    #     device: /home/mapontil/data/db_data
+    #     o: bind
+    #     type: none
 
 networks:
   Inception-network:

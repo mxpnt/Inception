@@ -1,6 +1,7 @@
 server	{
 	listen 443 ssl default;
-	server mapontil.42.fr;
+	server_name mapontil.42.fr;
+	root /var/www/html;
 
 	ssl                  on;
 	ssl_certificate      /etc/nginx/ssl/ca.crt;
@@ -8,7 +9,7 @@ server	{
 	ssl_protocols TLSv1.2 TLSv1.3;
 
 	location / {
-    try_files $uri $uri/ =404;
+    try_files $uri $uri/ /index.php?$args;
 	}
 
 	location ~ \.php$ {
